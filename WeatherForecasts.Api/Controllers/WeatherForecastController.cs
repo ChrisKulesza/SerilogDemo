@@ -74,13 +74,14 @@ public class WeatherForecastController : ControllerBase
     public IActionResult CreateCustomer(CustomerDto customer)
     {
         // Simulate adding to Db, structured logging (not working with string interpolation)
-        _seriLogger.Information("Writing customer {Customer} to Db", customer.Name);
+        _seriLogger.Information("Writing customer {customer} with {id} to Db", customer.Name, customer.Id);
 
         return StatusCode(StatusCodes.Status201Created);
     }
 }
 
 public record CustomerDto(
+    [Required] int Id,
     [Required][MaxLength(60)]string Name,
     [Range(0, 100)]int Age);
 
