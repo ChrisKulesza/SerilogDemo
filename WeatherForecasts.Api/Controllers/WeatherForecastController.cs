@@ -73,7 +73,7 @@ public class WeatherForecastController : ControllerBase
     [HttpPost("customers")]
     public IActionResult CreateCustomer(CustomerDto customer)
     {
-        // Simulate adding to Db
+        // Simulate adding to Db, structured logging (not working with string interpolation)
         _seriLogger.Information("Writing customer {Customer} to Db", customer.Name);
 
         return StatusCode(StatusCodes.Status201Created);
