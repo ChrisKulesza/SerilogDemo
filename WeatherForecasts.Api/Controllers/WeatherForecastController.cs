@@ -65,7 +65,7 @@ public class WeatherForecastController : ControllerBase
         }
     }
 
-    // Endpoint that throws an handled exception
+    // Endpoint that throws a unhandled exception
     [HttpGet("unhandled-exception")]
     public IActionResult UnhandledException() => throw new InvalidOperationException("Something bad happend.");
 
@@ -84,12 +84,12 @@ public record CustomerDto(
     [Required][MaxLength(60)]string Name,
     [Range(0, 100)]int Age);
 
-public class CustomerDtoClass
-{
-    [Required]
-    [MaxLength(50)]
-    public string Name { get; set; } = String.Empty;
+//public class CustomerDtoClass
+//{
+//    [Required]
+//    [MaxLength(50)]
+//    public string Name { get; set; } = String.Empty;
 
-    [Range(0, 100)]
-    public int Age { get; set; }
-}
+//    [Range(0, 100)]
+//    public int Age { get; set; }
+//}
