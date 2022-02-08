@@ -46,7 +46,7 @@ public class WeatherForecastController : ControllerBase
         {
             throw new InvalidOperationException("Something bad happened");
         }
-        catch (InvalidOperationException ioex)
+        catch (InvalidOperationException)
         {
             // TODO: Log an error
             return StatusCode(StatusCodes.Status500InternalServerError);

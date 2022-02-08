@@ -1,6 +1,5 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace WeatherForecasts.Api.Controllers;
 
@@ -8,21 +7,18 @@ namespace WeatherForecasts.Api.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    // ILogger is the default logging abstraction built into ASP.NET Core
-    private readonly ILogger<WeatherForecastController> _logger;
+    private readonly Serilog.ILogger _serilogger;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(Serilog.ILogger serilogger)
     {
-        _logger = logger;
+        _serilogger = serilogger;
     }
 
     // GET Enpoint
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {
-        // Log messages with structured content embedded into msg text.
-        // The following line uses the ASP.NET core logging abstraction.
-        _logger.LogInformation("Entered {Controller}.{Methode}", nameof(WeatherForecastController), nameof(Get));
+        _serilogger.Information("Entered {Controller}.{Methode}", nameof(WeatherForecastController), nameof(Get));
 
         // The following line demonstrates how we could use serilog's
         // own abstraction. Offers more features than ASP.NET core logging.
@@ -51,7 +47,7 @@ public class WeatherForecastController : ControllerBase
         {
             throw new InvalidOperationException("Something bad happened");
         }
-        catch (InvalidOperationException ioex)
+        catch (InvalidOperationException)
         {
             // TODO: Log an error
             return StatusCode(StatusCodes.Status500InternalServerError);
@@ -64,10 +60,14 @@ public class WeatherForecastController : ControllerBase
 
     // POST
     [HttpPost("customers")]
-    public IActionResult CreateCustomer(CustomerDto customer)
+    public IActionResult CreateCustomer(CustomerDto customerDto)
     {
         // Simulate adding to Db, structured logging (not working with string interpolation)
         // TODO: Log input data
+        _serilogger.Information("Writing customer {Lastname}, {Firstname} width id = {id} to DB", 
+            customerDto.Lastname, 
+            customerDto.Firstname, 
+            customerDto.Id);
 
         return StatusCode(StatusCodes.Status201Created);
     }
