@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace WeatherForecasts.Api.Controllers;
 
@@ -8,26 +6,19 @@ namespace WeatherForecasts.Api.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    // ILogger is the default logging abstraction built into ASP.NET Core
-    private readonly ILogger<WeatherForecastController> _logger;
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+    private static readonly NLog.Logger CustomerLogger = NLog.LogManager.GetLogger(nameof(CustomerDto));
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController()
     {
-        _logger = logger;
+
     }
 
     // GET Enpoint
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {
-        // Log messages with structured content embedded into msg text.
-        // The following line uses the ASP.NET core logging abstraction.
-        _logger.LogInformation("Entered {Controller}.{Methode}", nameof(WeatherForecastController), nameof(Get));
-
-        // The following line demonstrates how we could use serilog's
-        // own abstraction. Offers more features than ASP.NET core logging.
-
-        // TODO Log with context
+        Logger.Info("Entered {Controller}.{Methode}", nameof(WeatherForecastController), nameof(Get));
 
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
@@ -36,6 +27,42 @@ public class WeatherForecastController : ControllerBase
             Summary = Weather.Summaries[Random.Shared.Next(Weather.Summaries.Length)]
         })
         .ToArray();
+    }
+
+    // Checking out loggin levels
+    [HttpGet("levels")]
+    public IActionResult GetLogLevels()
+    {
+        Logger.Trace("LVL: Trace");
+        Logger.Debug("LVL: Debug");
+        Logger.Info("LVL: Info");
+        Logger.Warn("LVL: Warning");
+        Logger.Error("LVL: Error");
+        Logger.Fatal("LVL: Critical");
+
+        return Ok();
+    }
+
+    // Logging categories
+    [HttpGet("categories")]
+    public IActionResult GetLogCategories()
+    {
+        Logger.Info("From WeatherForecastController ({logger})", nameof(Logger));
+        CustomerLogger.Info("From CustomerDto ({logger})", nameof(CustomerLogger));
+
+        return Ok();
+    }
+
+    // Log scope
+    [HttpGet("scopes")]
+    public IActionResult GetLogScopes([FromQuery] string? sort)
+    {
+        using (NLog.MappedDiagnosticsLogicalContext.SetScoped("query", sort))
+        {
+            Logger.Info("From Scope");
+        }
+
+        return Ok();
     }
 
     // Endpoint that throws a handled exception
@@ -48,9 +75,24 @@ public class WeatherForecastController : ControllerBase
         }
         catch (InvalidOperationException ioex)
         {
-            // TODO: Log an error
+            Logger.Warn(ioex, "Operation did not complete successfully");
+
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
+    }
+
+    [HttpGet("exception2")]
+    public IActionResult HandleException2()
+    {
+        // NLog spezifische hilfsfunktion
+        Logger.Swallow(() =>
+        {
+            // Wörk wörk
+            throw new InvalidOperationException("Something bad happened");
+            // Other wörk
+        });
+
+        return Ok();
     }
 
     // Endpoint that throws a unhandled exception
@@ -61,9 +103,15 @@ public class WeatherForecastController : ControllerBase
     [HttpPost("customers")]
     public IActionResult CreateCustomer(CustomerDto customer)
     {
-        // Simulate adding to Db, structured logging (not working with string interpolation)
-        // TODO: Log input data
+        Logger.Info("Got Customer create request: {customer}", customer);
 
         return StatusCode(StatusCodes.Status201Created);
+    }
+
+    // Andere NLog spezifischen features
+
+    private static void Helper()
+    {
+        Logger.ConditionalTrace("I am speed");
     }
 }
