@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace WeatherForecasts.Api.Controllers;
 
@@ -8,26 +6,20 @@ namespace WeatherForecasts.Api.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    // ILogger is the default logging abstraction built into ASP.NET Core
     private readonly ILogger<WeatherForecastController> _logger;
+    private readonly ILogger<CustomerDto> _customerLogger;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, ILogger<CustomerDto> customerLogger)
     {
         _logger = logger;
+        _customerLogger = customerLogger;
     }
 
-    // GET Enpoint
+    // Simple Get
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {
-        // Log messages with structured content embedded into msg text.
-        // The following line uses the ASP.NET core logging abstraction.
         _logger.LogInformation("Entered {Controller}.{Methode}", nameof(WeatherForecastController), nameof(Get));
-
-        // The following line demonstrates how we could use serilog's
-        // own abstraction. Offers more features than ASP.NET core logging.
-
-        // TODO Log with context
 
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
@@ -36,6 +28,42 @@ public class WeatherForecastController : ControllerBase
             Summary = Weather.Summaries[Random.Shared.Next(Weather.Summaries.Length)]
         })
         .ToArray();
+    }
+
+    // Checking out loggin levels
+    [HttpGet("levels")]
+    public IActionResult GetLogLevels()
+    {
+        _logger.LogTrace("LVL: Trace");
+        _logger.LogDebug("LVL: Debug");
+        _logger.LogInformation("LVL: Info");
+        _logger.LogWarning("LVL: Warning");
+        _logger.LogError("LVL: Error");
+        _logger.LogCritical("LVL: Critical");
+
+        return Ok();
+    }
+
+    // Logging categories
+    [HttpGet("categories")]
+    public IActionResult GetLogCategories()
+    {
+        _logger.LogInformation("From WeatherForecastController ({logger})", nameof(_logger));
+        _customerLogger.LogInformation("From CustomerDto ({logger})", nameof(_customerLogger));
+
+        return Ok();
+    }
+
+    // Log scope
+    [HttpGet("scopes")]
+    public IActionResult GetLogScopes([FromQuery] string? sort)
+    {
+        using (_logger.BeginScope("Query Scope {query}", sort))
+        {
+            _logger.LogInformation("From Scope");
+        }
+
+        return Ok();
     }
 
     // Endpoint that throws a handled exception
@@ -48,7 +76,8 @@ public class WeatherForecastController : ControllerBase
         }
         catch (InvalidOperationException ioex)
         {
-            // TODO: Log an error
+            _logger.LogWarning(ioex, "Operation did not complete successfully");
+
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -61,8 +90,7 @@ public class WeatherForecastController : ControllerBase
     [HttpPost("customers")]
     public IActionResult CreateCustomer(CustomerDto customer)
     {
-        // Simulate adding to Db, structured logging (not working with string interpolation)
-        // TODO: Log input data
+        _logger.LogInformation("Got Customer create request: {customer}", customer);
 
         return StatusCode(StatusCodes.Status201Created);
     }
