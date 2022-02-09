@@ -64,7 +64,7 @@ public class WeatherForecastController : ControllerBase
     {
         // Simulate adding to Db, structured logging (not working with string interpolation)
         // TODO: Log input data
-        _serilogger.Information("Writing customer {Lastname}, {Firstname} width id = {id} to DB", 
+        _serilogger.Information("Writing customer {Lastname}, {Firstname} width id = {Id} to DB",
             customerDto.Lastname, 
             customerDto.Firstname, 
             customerDto.Id);
