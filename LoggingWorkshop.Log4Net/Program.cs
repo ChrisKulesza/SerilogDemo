@@ -12,7 +12,7 @@ SharedAspInit.BuildAndRun(args, builder =>
  Notizen:
  ✔ Global/Thread/Async context mapping
  ❌ Normales Logging hat kein overload für Exception + formatierte Nachricht
- ❌ Keine 'named' parameter für format strings
  ❌ Kein 'Trace' Level
+ ❌ Keine 'named' parameter für format strings
  ❌ Config Live Reload nach dokumentation möglich, habs aber nich zum laufen bekommen
 */

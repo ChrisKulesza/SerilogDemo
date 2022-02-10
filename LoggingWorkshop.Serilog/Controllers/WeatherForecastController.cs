@@ -6,18 +6,19 @@ namespace WeatherForecasts.Api.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    private readonly Serilog.ILogger _serilogger;
+    private readonly Serilog.ILogger _logger;
+    private static readonly Serilog.ILogger CustomerLogger = Log.ForContext<WeatherForecastController>();
 
     public WeatherForecastController(Serilog.ILogger serilogger)
     {
-        _serilogger = serilogger;
+        _logger = serilogger;
     }
 
     // GET Enpoint
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {
-        _serilogger.Information("Entered {Controller}.{Methode}", nameof(WeatherForecastController), nameof(Get));
+        _logger.Information("Entered {Controller}.{Methode}", nameof(WeatherForecastController), nameof(Get));
 
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
@@ -32,12 +33,32 @@ public class WeatherForecastController : ControllerBase
     [HttpGet("levels")]
     public IActionResult GetLogLevels()
     {
-        _serilogger.Verbose("LVL: Verbose");
-        _serilogger.Debug("LVL: Debug");
-        _serilogger.Information("LVL: Information");
-        _serilogger.Warning("LVL: Warning");
-        _serilogger.Error("LVL: Error");
-        _serilogger.Fatal("LVL: Fatal");
+        _logger.Verbose("LVL: Trace");
+        _logger.Debug("LVL: Debug");
+        _logger.Information("LVL: Info");
+        _logger.Warning("LVL: Warning");
+        _logger.Error("LVL: Error");
+        _logger.Fatal("LVL: Critical");
+
+        return Ok();
+    }
+
+    [HttpGet("categories")]
+    public IActionResult GetLogCategories()
+    {
+        _logger.Information("From WeatherForecastController ({logger})", nameof(_logger));
+        CustomerLogger.Information("From CustomerDto ({logger})", nameof(CustomerLogger));
+
+        return Ok();
+    }
+
+    [HttpGet("scopes")]
+    public IActionResult GetLogScopes([FromQuery] string? sort)
+    {
+        using (LogContext.PushProperty("query", sort))
+        {
+            _logger.Information("From Scope");
+        }
 
         return Ok();
     }
@@ -52,7 +73,7 @@ public class WeatherForecastController : ControllerBase
         }
         catch (InvalidOperationException ioex)
         {
-            _serilogger.Warning(ioex, "Operation did not complete successfully");
+            _logger.Warning(ioex, "Operation did not complete successfully");
 
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
@@ -66,14 +87,7 @@ public class WeatherForecastController : ControllerBase
     [HttpPost("customers")]
     public IActionResult CreateCustomer(CustomerDto customerDto)
     {
-        // Simulate adding to Db, structured logging (not working with string interpolation)
-        _serilogger.Information("Writing customer {Lastname}, width id = {Id} to DB",
-            customerDto.Lastname, 
-            customerDto.Id);
-        
-        // Simulate adding to Db, structured logging (not working with string interpolation)
-        _serilogger.Information("Writing customer {Customer} to DB",
-            customerDto);
+        _logger.Information("Got Customer create request: {customer}", customerDto);
 
         return StatusCode(StatusCodes.Status201Created);
     }
