@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
+using Serilog.Context;
 
 namespace WeatherForecasts.Api.Controllers;
 
