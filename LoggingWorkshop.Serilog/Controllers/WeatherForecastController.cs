@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
-using Serilog.Sinks.SystemConsole.Themes;
 
 namespace WeatherForecasts.Api.Controllers;
 
@@ -30,7 +28,7 @@ public class WeatherForecastController : ControllerBase
         .ToArray();
     }
 
-    // Checking out loggin levels
+    // Checking out logging levels
     [HttpGet("levels")]
     public IActionResult GetLogLevels()
     {
@@ -69,11 +67,13 @@ public class WeatherForecastController : ControllerBase
     public IActionResult CreateCustomer(CustomerDto customerDto)
     {
         // Simulate adding to Db, structured logging (not working with string interpolation)
-        // TODO: Log input data
-        _serilogger.Information("Writing customer {Lastname}, {Firstname} width id = {Id} to DB",
+        _serilogger.Information("Writing customer {Lastname}, width id = {Id} to DB",
             customerDto.Lastname, 
-            customerDto.Firstname, 
             customerDto.Id);
+        
+        // Simulate adding to Db, structured logging (not working with string interpolation)
+        _serilogger.Information("Writing customer {Customer} to DB",
+            customerDto);
 
         return StatusCode(StatusCodes.Status201Created);
     }

@@ -5,7 +5,7 @@ XmlConfigurator.ConfigureAndWatch(new FileInfo("log4net.config"));
 
 SharedAspInit.BuildAndRun(args, builder =>
 {
-    builder.Logging.AddLog4Net();
+    //builder.Logging.AddLog4Net();
 });
 
 /*

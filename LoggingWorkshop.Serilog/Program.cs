@@ -18,10 +18,6 @@ Log.Logger = new LoggerConfiguration()
 
 try
 {
-    Log.Information("Information");
-    Log.Debug("LVL Debug");
-    Log.Error("LVL Error");
-    Log.Fatal("LVL Fatal");
     Log.Information("Starting the web host");
 
     SharedAspInit.BuildAndRun(args, builder =>
