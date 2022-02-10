@@ -8,12 +8,11 @@ namespace WeatherForecasts.Api.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    private readonly Serilog.ILogger _logger;
-    private static readonly Serilog.ILogger CustomerLogger = Log.ForContext<WeatherForecastController>();
+    private readonly Serilog.ILogger _logger = Log.ForContext<WeatherForecastController>();
+    private static readonly Serilog.ILogger CustomerLogger = Log.ForContext<CustomerDto>();
 
-    public WeatherForecastController(Serilog.ILogger serilogger)
+    public WeatherForecastController()
     {
-        _logger = serilogger;
     }
 
     // GET Enpoint

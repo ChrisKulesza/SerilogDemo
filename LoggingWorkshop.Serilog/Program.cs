@@ -22,11 +22,22 @@ try
 
     SharedAspInit.BuildAndRun(args, builder =>
     {
-        builder.Host.UseSerilog((context, services, configuration) => configuration
-            .ReadFrom.Configuration(context.Configuration)
-            .ReadFrom.Services(services)
-            .Enrich.FromLogContext());
-    }, app =>
+        // load serilog.json to IConfiguration
+        var jsonReload = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            // reloadOnChange will allow you to auto reload the minimum level and level switches
+            .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+
+        builder.Host.UseSerilog((context, services, configuration) =>
+        {
+            configuration
+                .ReadFrom.Configuration(jsonReload)
+                .ReadFrom.Services(services)
+                .Enrich.FromLogContext();
+        });
+    },
+    app =>
     {
         app.UseSerilogRequestLogging();
     });
