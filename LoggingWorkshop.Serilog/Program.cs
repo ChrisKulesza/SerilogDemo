@@ -1,4 +1,4 @@
-using Serilog;
+﻿using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 using WeatherForecasts.Api;
@@ -43,3 +43,12 @@ finally
 }
 
 return 0;
+
+/*
+ Notizen:
+ ✔ Integriert bequem in die appsettings.json (+ automatischer wechsel Dev/Prod)
+ ✔ Live config reload
+ ✔ Log file management (zb. Log rotate)
+ ✔ Gute Dokumentation
+ ✔ Auch in statischen methoden bequem zu verwenden
+*/
