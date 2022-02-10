@@ -5,13 +5,21 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherForecasts.Api", "WeatherForecasts.Api\WeatherForecasts.Api.csproj", "{C3ADB4CB-B4D7-491B-BB2E-2BC1C524201F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingWorkshop.Serilog", "LoggingWorkshop.Serilog\LoggingWorkshop.Serilog.csproj", "{9633DC57-DEE0-4C44-9740-14EE718CD67E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingWorkshop.Serilog", "LoggingWorkshop.Serilog\LoggingWorkshop.Serilog.csproj", "{9633DC57-DEE0-4C44-9740-14EE718CD67E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingWorkshop.NLog", "LoggingWorkshop.NLog\LoggingWorkshop.NLog.csproj", "{FEFA0E34-B409-4A04-B6FF-523232271577}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingWorkshop.NLog", "LoggingWorkshop.NLog\LoggingWorkshop.NLog.csproj", "{FEFA0E34-B409-4A04-B6FF-523232271577}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingWorkshop.Log4Net", "LoggingWorkshop.Log4Net\LoggingWorkshop.Log4Net.csproj", "{023A97FB-623B-42E9-A43E-77452E7940D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingWorkshop.Log4Net", "LoggingWorkshop.Log4Net\LoggingWorkshop.Log4Net.csproj", "{023A97FB-623B-42E9-A43E-77452E7940D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingWorkshop.Microsoft", "LoggingWorkshop.Microsoft\LoggingWorkshop.Microsoft.csproj", "{565523FE-7196-40EF-A73E-1ABC68361EF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingWorkshop.Microsoft", "LoggingWorkshop.Microsoft\LoggingWorkshop.Microsoft.csproj", "{565523FE-7196-40EF-A73E-1ABC68361EF0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingWorkshop.Log4Net.Demo", "LoggingWorkshop.Log4Net.Demo\LoggingWorkshop.Log4Net.Demo.csproj", "{C8619535-548A-4D49-AEF7-41CCEFAAC0D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingWorkshop.Microsoft.Demo", "LoggingWorkshop.Microsoft.Demo\LoggingWorkshop.Microsoft.Demo.csproj", "{CBDECF95-9B63-4194-9CE1-6F659E739889}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingWorkshop.NLog.Demo", "LoggingWorkshop.NLog.Demo\LoggingWorkshop.NLog.Demo.csproj", "{2B3E9CE0-1D13-4E72-AADE-A3731EFFBD51}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingWorkshop.Serilog.Demo", "LoggingWorkshop.Serilog.Demo\LoggingWorkshop.Serilog.Demo.csproj", "{C8B9707D-9D3B-4E2E-B675-05776B4A5A5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +47,22 @@ Global
 		{565523FE-7196-40EF-A73E-1ABC68361EF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{565523FE-7196-40EF-A73E-1ABC68361EF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{565523FE-7196-40EF-A73E-1ABC68361EF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8619535-548A-4D49-AEF7-41CCEFAAC0D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8619535-548A-4D49-AEF7-41CCEFAAC0D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8619535-548A-4D49-AEF7-41CCEFAAC0D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8619535-548A-4D49-AEF7-41CCEFAAC0D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBDECF95-9B63-4194-9CE1-6F659E739889}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBDECF95-9B63-4194-9CE1-6F659E739889}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBDECF95-9B63-4194-9CE1-6F659E739889}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBDECF95-9B63-4194-9CE1-6F659E739889}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B3E9CE0-1D13-4E72-AADE-A3731EFFBD51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B3E9CE0-1D13-4E72-AADE-A3731EFFBD51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B3E9CE0-1D13-4E72-AADE-A3731EFFBD51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B3E9CE0-1D13-4E72-AADE-A3731EFFBD51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8B9707D-9D3B-4E2E-B675-05776B4A5A5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8B9707D-9D3B-4E2E-B675-05776B4A5A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8B9707D-9D3B-4E2E-B675-05776B4A5A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8B9707D-9D3B-4E2E-B675-05776B4A5A5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
