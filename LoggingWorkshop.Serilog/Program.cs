@@ -1,5 +1,6 @@
 using Serilog;
 using Serilog.Events;
+using Serilog.Sinks.SystemConsole.Themes;
 using WeatherForecasts.Api;
 
 // Setup serilog in a two-step process. First, we configure basic logging
@@ -9,13 +10,18 @@ using WeatherForecasts.Api;
 // General information about serilog can be found at
 // https://serilog.net/
 Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
     .Enrich.FromLogContext()
-    .WriteTo.Console()
-    .CreateBootstrapLogger();
+    .WriteTo.Console(theme: SystemConsoleTheme.Colored)
+    .CreateLogger();
 
 try
 {
+    Log.Information("Information");
+    Log.Debug("LVL Debug");
+    Log.Error("LVL Error");
+    Log.Fatal("LVL Fatal");
     Log.Information("Starting the web host");
 
     SharedAspInit.BuildAndRun(args, builder =>

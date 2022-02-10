@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace WeatherForecasts.Api.Controllers;
 
@@ -20,15 +21,6 @@ public class WeatherForecastController : ControllerBase
     {
         _serilogger.Information("Entered {Controller}.{Methode}", nameof(WeatherForecastController), nameof(Get));
 
-        // The following line demonstrates how we could use serilog's
-        // own abstraction. Offers more features than ASP.NET core logging.
-
-        // TODO Log with context
-        //_seriLogger
-        //    .ForContext("Controller", nameof(WeatherForecastController))
-        //    .ForContext("Methode", nameof(Get))
-        //    .Warning("Entered");
-
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
             Date = DateTime.Now.AddDays(index),
@@ -38,18 +30,32 @@ public class WeatherForecastController : ControllerBase
         .ToArray();
     }
 
+    // Checking out loggin levels
+    [HttpGet("levels")]
+    public IActionResult GetLogLevels()
+    {
+        _serilogger.Verbose("LVL: Verbose");
+        _serilogger.Debug("LVL: Debug");
+        _serilogger.Information("LVL: Information");
+        _serilogger.Warning("LVL: Warning");
+        _serilogger.Error("LVL: Error");
+        _serilogger.Fatal("LVL: Fatal");
+
+        return Ok();
+    }
+
     // Endpoint that throws a handled exception
     [HttpGet("exception")]
-    //weatherForecast/exception
     public IActionResult HandleException()
     {
         try
         {
             throw new InvalidOperationException("Something bad happened");
         }
-        catch (InvalidOperationException)
+        catch (InvalidOperationException ioex)
         {
-            // TODO: Log an error
+            _serilogger.Warning(ioex, "Operation did not complete successfully");
+
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
