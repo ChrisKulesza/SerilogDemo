@@ -2,7 +2,7 @@
 
 public class SharedAspInit
 {
-    public static void BuildAndRun(string[] args, Action<WebApplicationBuilder> buildAction)
+    public static void BuildAndRun(string[] args, Action<WebApplicationBuilder> buildAction, Action<WebApplication>? pipeline = null)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +14,9 @@ public class SharedAspInit
         buildAction(builder);
 
         var app = builder.Build();
+
+        pipeline?.Invoke(app);
+
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
@@ -25,7 +28,8 @@ public class SharedAspInit
         app.Run();
     }
 
-    public static void GlobalHandler() {
+    public static void GlobalHandler()
+    {
         //AppDomain.CurrentDomain.UnhandledException += (s, e) =>
         //{
         //    Log.Logger.Fatal(e.ExceptionObject as Exception, "Fatal error");

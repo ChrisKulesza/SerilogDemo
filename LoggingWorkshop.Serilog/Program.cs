@@ -26,6 +26,9 @@ try
             .ReadFrom.Configuration(context.Configuration)
             .ReadFrom.Services(services)
             .Enrich.FromLogContext());
+    }, app =>
+    {
+        app.UseSerilogRequestLogging();
     });
 }
 catch (Exception ex)
@@ -39,12 +42,3 @@ finally
 }
 
 return 0;
-
-/*
- Notizen:
- ✔ Integriert bequem in die appsettings.json (+ automatischer wechsel Dev/Prod)
- ✔ Live config reload
- ✔ Log file management (zb. Log rotate)
- ✔ Gute Dokumentation
- ✔ Auch in statischen methoden bequem zu verwenden
-*/

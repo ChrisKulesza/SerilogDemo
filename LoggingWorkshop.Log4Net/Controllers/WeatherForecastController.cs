@@ -1,5 +1,4 @@
 using log4net;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WeatherForecasts.Api.Controllers;

@@ -26,14 +26,3 @@ finally
     // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
     LogManager.Shutdown();
 }
-
-/*
- Notizen:
- ✔ Vielseitiges target + rule system
- ✔ Live config reload
- ✔ Gute Dokumentation
- ✔ Log file management (zb. Log rotate)
- ✔ Auch in statischen methoden bequem zu verwenden
- ✔ Global/Thread/Async context mapping
- ❌ Aufwändig gute Layouts zu schreiben / Können schnell kompliziert werden
-*/
